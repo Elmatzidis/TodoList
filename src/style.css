@@ -1,0 +1,29 @@
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #1a1817;
+}
+
+.content{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.taskContainer{
+    color: #fff;
+    width: 20vw;
+    height: 25vh;
+    background-color: #11100f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.taskContainer p{
+    flex-direction: column;
+}
