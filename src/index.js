@@ -1,10 +1,7 @@
 import "./style.css";
 
-// 1. SELECTORS & STATE
 const main = document.querySelector(".main");
-const taskBox = document.createElement("div");
-const taskContainer = document.createElement("div");
-let tasks = [];
+let tasksArray = [];
 
 class Task {
   constructor(title, description, duedate, priority) {
@@ -15,26 +12,62 @@ class Task {
   }
 }
 
-function displayTasks() {
-  tasks.forEach((task) => {
+function elementBuilder(type, className, parent) {
+  const element = document.createElement(type);
+  if (className) element.classList.add(className);
+  if (parent) parent.appendChild(element);
+  return element;
+}
+
+function displayTasks(container) {
+  container.textContent = "";
+
+  tasksArray.forEach((task) => {
     const taskElement = document.createElement("p");
     taskElement.classList.add("task-item");
     taskElement.textContent = `${task.title} - ${task.description} (Due: ${task.duedate})`;
-    taskContainer.appendChild(taskElement);
+    container.appendChild(taskElement);
+  });
+}
+
+function createForm(btn) {
+  btn.addEventListener("click", () => {
+    const formBox = elementBuilder("div", "form", main);
+    const formContent = elementBuilder("div", "formContent", formBox);
+    const titleInput = elementBuilder("input", "form-input", formContent);
+    titleInput.placeholder = "Task Titlte";
+    titleInput.type = "text";
+    const textDescription = elementBuilder(
+      "textarea",
+      "form-desc",
+      formContent,
+    );
+    textDescription.placeholder = "Description...";
+
+    const prioritySelect = elementBuilder(
+      "select",
+      "form-prio-sele",
+      formContent,
+    );
+
+    formBox.style.display = "block";
   });
 }
 
 function initApp() {
-  taskBox.classList.add("content");
-  main.appendChild(taskBox);
-  taskContainer.classList.add("taskContainer")
-  taskBox.appendChild(taskContainer)
+  const nav = elementBuilder("div", "nav", main);
+  const taskBox = elementBuilder("div", "content", main);
+  const btn = elementBuilder("button", "btn", taskBox);
+  const taskContainer = elementBuilder("div", "taskContainer", taskBox);
+
+  btn.textContent = "Add Task";
 
   const todo1 = new Task("Walk", "Walk the dog", "2026-05-01", "High");
   const todo2 = new Task("Gym", "Leg day", "2026-05-02", "Medium");
-  tasks.push(todo1, todo2);
+  tasksArray.push(todo1, todo2);
 
-  displayTasks();
+  createForm(btn);
+  displayTasks(taskContainer);
 }
 
 initApp();
