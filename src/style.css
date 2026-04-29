@@ -43,8 +43,8 @@ body {
 
 .taskContainer {
   width: 90vw;
-  max-width: 500px;
-  min-height: 100px;
+  /* max-width: 500px;
+  min-height: 100px; */
   background-color: #fff;
   color: #252422;
   padding: 1rem;
@@ -213,4 +213,10 @@ body {
 
 .submitBtn:active {
   transform: translateY(0);
+}
+
+.taskCreatedContainer{
+  background-color: red;
+  width: 500px;
+  height: 500px;
 }

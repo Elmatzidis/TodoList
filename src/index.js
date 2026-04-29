@@ -30,23 +30,40 @@ function displayTasks(container) {
   });
 }
 
-function createForm(btn) {
+function submitTask(submitBtn, container) {
+  submitBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const title = document.querySelector(".formInput").value;
+    const description = document.querySelector(".formDesc").value;
+    const priority = document.querySelector(".formPrioSele").value;
+
+    if (!title) return alert("Please enter a title!");
+
+    const newTask = new Task(title, description, "2026-05-01", priority);
+    tasksArray.push(newTask);
+
+    displayTasks(container);
+
+    const form = document.querySelector(".form");
+    if (form) form.remove();
+  });
+}
+
+function createForm(btn, placeToAddTask) {
   btn.addEventListener("click", () => {
+    if (document.querySelector(".form")) return;
+
     const formBox = elementBuilder("div", "form", main);
     const formContent = elementBuilder("div", "formContent", formBox);
 
-    const header=elementBuilder("h1","header",formContent)
-    header.textContent="Create a task"
+    const header = elementBuilder("h1", "header", formContent);
+    header.textContent = "Create a task";
 
     const titleInput = elementBuilder("input", "formInput", formContent);
-    titleInput.placeholder = "Task Titlte";
-    titleInput.type = "text";
+    titleInput.placeholder = "Task Title";
 
-    const textDescription = elementBuilder(
-      "textarea",
-      "formDesc",
-      formContent,
-    );
+    const textDescription = elementBuilder("textarea", "formDesc", formContent);
     textDescription.placeholder = "Description...";
 
     const prioritySelect = elementBuilder(
@@ -54,8 +71,7 @@ function createForm(btn) {
       "formPrioSele",
       formContent,
     );
-    const options = ["Low", "Med", "High"];
-    options.forEach((option) => {
+    ["Low", "Med", "High"].forEach((option) => {
       const opt = elementBuilder("option", "", prioritySelect);
       opt.value = option;
       opt.textContent = option;
@@ -63,28 +79,22 @@ function createForm(btn) {
 
     const submit = elementBuilder("button", "submitBtn", formContent);
     submit.textContent = "Save Task";
-    submit.type = "submit";
-    formBox.style.display = "block";
-    return { formContent, titleInput, textDescription, prioritySelect };
-  },{ once: true });
-}
-
-function createTask(){
+    submitTask(submit, placeToAddTask);
+  });
 }
 
 function initApp() {
   const nav = elementBuilder("div", "nav", main);
   const taskBox = elementBuilder("div", "content", main);
   const btn = elementBuilder("button", "btn", taskBox);
-  const taskContainer = elementBuilder("div", "taskContainer", taskBox);  
+  const taskContainer = elementBuilder("div", "taskContainer", taskBox);
 
   btn.textContent = "Add Task";
 
   const todo1 = new Task("Walk", "Walk the dog", "2026-05-01", "High");
-  const todo2 = new Task("Gym", "Leg day", "2026-05-02", "Medium");
-  tasksArray.push(todo1, todo2);
+  tasksArray.push(todo1);
+  createForm(btn, taskContainer);
 
-  createForm(btn);
   displayTasks(taskContainer);
 }
 
