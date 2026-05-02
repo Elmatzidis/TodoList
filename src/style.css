@@ -31,7 +31,7 @@ body {
   padding: 0 2rem;
   font-weight: 800;
   letter-spacing: 0.5px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 10px #f8fafc;
 }
 
 .content {
@@ -126,10 +126,12 @@ body {
   font-family: inherit;
   background-color: #f8fafc;
   resize:vertical;
+  transition: 250ms;
 }
 
 .formInput:focus,
-.formDesc:focus {
+.formDesc:focus,
+.formPrioSele:focus {
   outline: none;
   border-color: #6366f1;
   background-color: #fff;
@@ -145,10 +147,11 @@ body {
   font-weight: 700;
   cursor: pointer;
   transition: background 0.2s;
+  font-size: 1.2rem;
 }
 
 .submitBtn:hover {
-  background-color: #334155;
+  background-color: #293546;
 }
 
 .taskItemBox {
@@ -159,7 +162,7 @@ body {
   background-color: #ffffff;
   color: #1e293b;
   padding: 1.5rem;
-  border: 1px solid #e2e8f0;
+  border: 2px solid #e2e8f0;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
