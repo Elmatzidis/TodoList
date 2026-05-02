@@ -203,7 +203,6 @@ body {
   color: #94a3b8;
 }
 
-/* --- OVERLAY --- */
 .overlayShow {
   position: fixed;
   inset: 0;
@@ -234,11 +233,29 @@ body {
   border-radius: 10px;
 }
 
-
-
-@media screen and (max-width: 600px){
-  .taskContainer{
-    justify-content: center;
-  }
+.removeTask {
+  padding: 0.8rem;
+  background-color: #1e293b;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:  0.2s;
+  font-size: 1.2rem;
 }
 
+.removeTask:hover{
+  background-color: #293546;
+}
+
+@media screen and (max-width: 600px) {
+  .taskContainer {
+    justify-content: center;
+  }
+
+  .taskItemBox{
+    width: clamp(300px,350px,400px);
+    height: clamp(300px,370px,400px);
+  }
+}

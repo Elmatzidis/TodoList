@@ -56,7 +56,19 @@ function showForm(placeToAddTask, editIndex = null) {
   });
 
   const submit = elementBuilder("button", "submitBtn", formContent);
-  submit.textContent = editIndex !== null ? "Edit task" : "Create Task";
+  submit.textContent = editIndex !== null ? "Edit Task" : "Create Task";
+
+  if (editIndex !== null) {
+    const removeTask = elementBuilder("button", "removeTask", formContent);
+    removeTask.textContent = "Delete Task";
+    removeTask.addEventListener("click", () => {
+      tasksArray.splice(editIndex, 1);
+      setLocalStorage();
+      document.querySelector(".form").remove();
+      overlay.classList.replace("overlayShow", "overlay");
+      displayTasks(placeToAddTask);
+    });
+  }
 
   if (editIndex !== null) {
     const task = tasksArray[editIndex];
@@ -128,21 +140,21 @@ function displayTasks(container) {
 
     if (task.priority == "Low") {
       const lowPrioCircle = elementBuilder("div", "prioCircle", taskCard);
-      lowPrioCircle.classList.add("lowPrio")
+      lowPrioCircle.classList.add("lowPrio");
     }
     if (task.priority == "Med") {
       const medPrioCircle = elementBuilder("div", "prioCircle", taskCard);
-      medPrioCircle.classList.add("medPrio")
+      medPrioCircle.classList.add("medPrio");
     }
     if (task.priority == "High") {
       const highPrioCircle = elementBuilder("div", "prioCircle", taskCard);
-      highPrioCircle.classList.add("highPrio")
+      highPrioCircle.classList.add("highPrio");
     }
 
     taskCard.addEventListener("click", () => {
       showForm(container, index);
     });
-   
+
     layout.forEach(([tag, className, content]) => {
       const el = elementBuilder(tag, className, taskCard);
       el.textContent = content;
@@ -168,8 +180,8 @@ function initApp() {
 
   if (tasksArray.length === 0) {
     const welcomeTask = new Task(
-      "Welcome!",
-      "Click me to edit, or click 'Add Task' to create your own.",
+      "Welcome !",
+      "Click any card to edit details or delete the task The colored bar at the top shows priority: Green (Low), Yellow (Med), Red (High).Use Add Task to start fresh. Your changes are saved automatically to your browser.",
       "2026-05-01",
       "Med",
     );
