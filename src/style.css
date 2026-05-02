@@ -116,7 +116,8 @@ body {
 
 .formInput,
 .formDesc,
-.formPrioSele {
+.formPrioSele,
+.formDate {
   font-size: clamp(1rem, 5vw, 1.2rem);
   width: 100%;
   padding: 0.8rem;
@@ -130,7 +131,8 @@ body {
 
 .formInput:focus,
 .formDesc:focus,
-.formPrioSele:focus {
+.formPrioSele:focus,
+.formDate:focus {
   outline: none;
   border-color: #6366f1;
   background-color: #fff;
@@ -212,20 +214,20 @@ body {
 }
 
 .lowPrio {
-  background-color: rgb(77, 221, 77);
+  background-color: #10b981;
 }
 
 .medPrio {
-  background-color: rgb(235, 218, 66);
+  background-color: #f59e0b;
 }
 
 .highPrio {
-  background-color: rgb(202, 43, 43);
+  background-color: #ef4444;
 }
 
 .prioCircle {
   width: 100vw;
-  height: clamp(10px, 4vw, 15px);
+  height: clamp(10px, 4vw, 20px);
   border: none;
   position: relative;
   bottom: 10%;
@@ -241,12 +243,20 @@ body {
   border-radius: 10px;
   font-weight: 700;
   cursor: pointer;
-  transition:  0.2s;
+  transition: 0.2s;
   font-size: 1.2rem;
 }
 
-.removeTask:hover{
+.removeTask:hover {
   background-color: #293546;
+}
+
+.taskDuedate {
+  color: rgb(31, 29, 29); /* Default color */
+}
+
+.overdue-text {
+  color: #d32f2f !important; /* Bold red */
 }
 
 @media screen and (max-width: 600px) {
@@ -254,8 +264,8 @@ body {
     justify-content: center;
   }
 
-  .taskItemBox{
-    width: clamp(300px,350px,400px);
-    height: clamp(300px,370px,400px);
+  .taskItemBox {
+    width: clamp(300px, 350px, 400px);
+    height: clamp(300px, 370px, 400px);
   }
 }

@@ -10,6 +10,9 @@
   },
   "scripts": {
     "build": "webpack",
-    "live":"webpack serve"
+    "live": "webpack serve"
+  },
+  "dependencies": {
+    "date-fns": "^4.1.0"
   }
 }
