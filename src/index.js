@@ -4,6 +4,19 @@ const main = document.querySelector(".main");
 const overlay = elementBuilder("div", "overlay", main);
 let tasksArray = [];
 
+getStorage();
+
+// Sets the local storage
+function setLocalStorage() {
+  localStorage.setItem(`tasksArray`, JSON.stringify(tasksArray));
+}
+
+//Retrieves data from local storage
+function getStorage() {
+  const savedTasks = localStorage.getItem("tasksArray");
+  return savedTasks ? JSON.parse(savedTasks) : [];
+}
+
 class Task {
   constructor(title, description, duedate, priority) {
     this.title = title;
@@ -47,7 +60,7 @@ function showForm(placeToAddTask, editIndex = null) {
 
   if (editIndex !== null) {
     const task = tasksArray[editIndex];
-    titleInput.value = task.title;  
+    titleInput.value = task.title;
     textDescription.value = task.description;
     prioritySelect.value = task.priority;
   }
@@ -55,7 +68,7 @@ function showForm(placeToAddTask, editIndex = null) {
   overlay.classList.remove("overlay");
   overlay.classList.add("overlayShow");
 
-  submitTask(submit, placeToAddTask,editIndex)
+  submitTask(submit, placeToAddTask, editIndex);
 
   const closeOnOverlayClick = (e) => {
     if (e.target === overlay) {
@@ -81,33 +94,55 @@ function submitTask(submitBtn, container, editIndex) {
     if (!title || !description) return alert("Fill everything!");
 
     if (editIndex !== null) {
-      tasksArray[editIndex] = new Task(title, description, "2026-05-01", priority);
+      tasksArray[editIndex] = new Task(
+        title,
+        description,
+        "2026-05-01",
+        priority,
+      );
     } else {
       tasksArray.push(new Task(title, description, "2026-05-01", priority));
     }
 
-    displayTasks(container); 
-    
+    setLocalStorage();
+
+    displayTasks(container);
+
     document.querySelector(".form").remove();
     overlay.classList.replace("overlayShow", "overlay");
   });
 }
 
 function displayTasks(container) {
-   container.textContent = "";
-    
+  container.textContent = "";
+
   tasksArray.forEach((task, index) => {
     const taskCard = elementBuilder("div", "taskItemBox", container);
-    taskCard.dataset.index = index; 
+
+    taskCard.dataset.index = index;
     const layout = [
       ["h1", "taskHeader", task.title],
       ["p", "taskDescription", task.description],
       ["p", "taskDuedate", `(Due: ${task.duedate})`],
     ];
 
+    if (task.priority == "Low") {
+      const lowPrioCircle = elementBuilder("div", "prioCircle", taskCard);
+      lowPrioCircle.classList.add("lowPrio")
+    }
+    if (task.priority == "Med") {
+      const medPrioCircle = elementBuilder("div", "prioCircle", taskCard);
+      medPrioCircle.classList.add("medPrio")
+    }
+    if (task.priority == "High") {
+      const highPrioCircle = elementBuilder("div", "prioCircle", taskCard);
+      highPrioCircle.classList.add("highPrio")
+    }
+
     taskCard.addEventListener("click", () => {
       showForm(container, index);
     });
+   
     layout.forEach(([tag, className, content]) => {
       const el = elementBuilder(tag, className, taskCard);
       el.textContent = content;
@@ -129,32 +164,19 @@ function initApp() {
 
   btn.textContent = "Add Task";
 
-  const todo1 = new Task(
-    "Walk",
-    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint ipsam itaque maiores neque vel, voluptatum facilis reprehenderit tempora doloremque mollitia libero quod, corporis veniam ipsum, quas numquam? Temporibus hic, ullam cum mollitia reiciendis facilis quo! Ullam atque rerum omnis vero?",
-    "2026-05-01",
-    "High",
-  );
-  const todo2 = new Task(
-    "Walk",
-    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint ipsam itaque maiores neque vel, voluptatum facilis reprehenderit tempora doloremque mollitia libero quod, corporis veniam ipsum, quas numquam? Temporibus hic, ullam cum mollitia reiciendis facilis quo! Ullam atque rerum omnis vero?",
-    "2026-05-01",
-    "High",
-  );
-  const todo3 = new Task(
-    "Walk",
-    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint ipsam itaque maiores neque vel, voluptatum facilis reprehenderit tempora doloremque mollitia libero quod, corporis veniam ipsum, quas numquam? Temporibus hic, ullam cum mollitia reiciendis facilis quo! Ullam atque rerum omnis vero?",
-    "2026-05-01",
-    "High",
-  );
-  const todo4 = new Task(
-    "Walk",
-    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint ipsam itaque maiores neque vel, voluptatum facilis reprehenderit tempora doloremque mollitia libero quod, corporis veniam ipsum, quas numquam? Temporibus hic, ullam cum mollitia reiciendis facilis quo! Ullam atque rerum omnis vero?",
-    "2026-05-01",
-    "High",
-  );
+  tasksArray = getStorage();
 
-  tasksArray.push(todo1, todo2, todo3, todo4);
+  if (tasksArray.length === 0) {
+    const welcomeTask = new Task(
+      "Welcome!",
+      "Click me to edit, or click 'Add Task' to create your own.",
+      "2026-05-01",
+      "Med",
+    );
+    tasksArray.push(welcomeTask);
+    setLocalStorage();
+  }
+
   createForm(btn, taskContainer);
   displayTasks(taskContainer);
 }
