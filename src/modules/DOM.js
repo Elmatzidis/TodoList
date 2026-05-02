@@ -191,7 +191,7 @@ export function displayTasks(container) {
   });
 }
 
-//  INITIALIZATION: The setup that runs when the page first loads.
+// INITIALIZATION: The setup that runs when the page first loads.
 
 export function initApp() {
   const nav = elementBuilder("div", "nav", main);
@@ -208,7 +208,7 @@ export function initApp() {
   if (tasksArray.length === 0) {
     const welcomeTask = new Task(
       "Welcome !",
-      "Click any card to edit details...",
+      "Click any card to edit details or delete the task The colored bar at the top shows priority: Green (Low), Yellow (Med), Red (High).Use Add Task to start fresh. Your changes are saved automatically to your browser.",
       "2026-05-01",
       "Med",
     );
