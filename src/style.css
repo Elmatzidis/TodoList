@@ -13,6 +13,7 @@ body {
   color: #1e293b;
 }
 
+/* Main content of the page */
 .main {
   width: 100%;
   min-height: 100vh;
@@ -21,6 +22,7 @@ body {
   align-items: center;
 }
 
+/* Navigation (holds the sort option) */
 .nav {
   width: 100%;
   min-height: 8vh;
@@ -43,6 +45,7 @@ body {
   gap: 1.5rem;
 }
 
+/* Holds all of the taks that are being made  */
 .taskContainer {
   width: 93%;
   display: flex;
@@ -52,6 +55,7 @@ body {
   background-color: transparent;
 }
 
+/* Button that opens the form for the user to submit the task */
 .btn {
   padding: 16px 40px;
   border-radius: 12px;
@@ -83,6 +87,7 @@ body {
   box-shadow: 0 5px 10px rgba(99, 102, 241, 0.4);
 }
 
+/* Form that hold all of the imporant inputs for the creation of the task */
 .form {
   width: clamp(300px, 45vw, 450px);
   min-height: clamp(350px, 50vh, 550px);
@@ -98,6 +103,7 @@ body {
   border: 1px solid #e2e8f0;
 }
 
+/* Inner form  */
 .formContent {
   display: flex;
   flex-direction: column;
@@ -118,6 +124,9 @@ body {
 .formDesc,
 .formPrioSele,
 .formDate {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   font-size: clamp(1rem, 5vw, 1.2rem);
   width: 100%;
   padding: 0.8rem;
@@ -138,6 +147,13 @@ body {
   background-color: #fff;
 }
 
+/* Remove the default inner padding Safari adds to the date value */
+.formDate::-webkit-date-and-time-value {
+  text-align: left; /* iOS Safari defaults to center */
+  margin: 0;
+}
+
+/* Submits the user final inputs/selection */
 .submitBtn {
   margin-top: 1rem;
   padding: 0.8rem;
@@ -155,6 +171,7 @@ body {
   background-color: #293546;
 }
 
+/* Holds the task inputs from the user */
 .taskItemBox {
   position: relative;
   display: flex;
@@ -178,6 +195,7 @@ body {
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
+/* Task's inner information */
 .taskItemBox h1 {
   font-size: 2rem;
   margin: 0 0 0.5rem 0;
@@ -205,6 +223,7 @@ body {
   color: #94a3b8;
 }
 
+/* Overlay showing when create task is being pressed  */
 .overlayShow {
   position: fixed;
   inset: 0;
@@ -213,6 +232,7 @@ body {
   z-index: 90;
 }
 
+/* Priority color of each task starting from low-Mid-High  */
 .lowPrio {
   background-color: #10b981;
 }
@@ -235,6 +255,7 @@ body {
   border-radius: 10px;
 }
 
+/* Remove task button, when pressed removes the index of the task */
 .removeTask {
   padding: 0.8rem;
   background-color: #1e293b;
@@ -255,10 +276,31 @@ body {
   color: rgb(31, 29, 29); /* Default color */
 }
 
+/* Color when the date set is due */
 .overdue-text {
   color: #d32f2f !important; /* Bold red */
 }
 
+/* Selection of sorting function , sorts based on the users option */
+.selectSort {
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  background-color: #6366f1;
+  font-size: clamp(0.8rem, 1.2rem, 1.5rem);
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow:
+    0 10px 15px -3px rgba(99, 102, 241, 0.3),
+    0 4px 6px -2px rgba(99, 102, 241, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+/* For mobile */
 @media screen and (max-width: 600px) {
   .taskContainer {
     justify-content: center;
