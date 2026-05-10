@@ -7,9 +7,16 @@ import {
   startOfToday,
 } from "date-fns";
 
-const main = document.querySelector(".main");
+// Hold the main content of the page
+const main =elementBuilder("div","main",document.body)
 // elementBuilder creates the dark background layer when opening the form
 const overlay = elementBuilder("div", "overlay", main);
+//Set the priority of each task and is given a certain number so it can be sorted
+const priorityValues = {
+  High: 3,
+  Med: 2,
+  Low: 1,
+};
 // This is array which hold all of ours tasks
 export let tasksArray = [];
 
@@ -124,6 +131,7 @@ export function submitTask(submitBtn, container, editIndex) {
       tasksArray.push(new Task(title, description, duedate, priority));
     }
 
+    sortTasks(); // Sorts the tasks
     setLocalStorage(); // Sync changes to LocalStorage
     displayTasks(container); // Update the task list UI
 
@@ -191,13 +199,55 @@ export function displayTasks(container) {
   });
 }
 
+// Sort Logic: sorts all of the tasks according to the user selections
+// Priority ↑/↓ based on how important the task is
+// Date ↑/↓ based on how much time is left to complete the task
+// Sorts tasks when they being submited
+function sortTasks() {
+  const selectSort = document.querySelector(".selectSort");
+  const taskContainer = document.querySelector(".taskContainer");
+  if (!selectSort) return;
+
+  // Sorting logic of tasks based on the the choice of the user
+  const currentChoice = selectSort.value;
+  tasksArray.sort((a, b) => {
+    if (currentChoice === "Priority ↑") {
+      return priorityValues[b.priority] - priorityValues[a.priority];
+    } else if (currentChoice === "Priority ↓") {
+      return priorityValues[a.priority] - priorityValues[b.priority];
+    } else if (currentChoice === "Date ↓") {
+      return new Date(a.duedate) - new Date(b.duedate);
+    } else if (currentChoice === "Date ↑") {
+      return new Date(b.duedate) - new Date(a.duedate);
+    }
+    return 0;
+  });
+  setLocalStorage();
+  displayTasks(taskContainer);
+}
+
 //  INITIALIZATION: The setup that runs when the page first loads.
 
 export function initApp() {
   const nav = elementBuilder("div", "nav", main);
   const taskBox = elementBuilder("div", "content", main);
   const btn = elementBuilder("button", "btn", taskBox);
+  const selectSort = elementBuilder("select", "selectSort", nav);
   const taskContainer = elementBuilder("div", "taskContainer", taskBox);
+
+  // Creates the selection of sotrting options
+  ["Priority ↑", "Priority ↓", "Date ↑", "Date ↓"].forEach((option) => {
+    const opt = elementBuilder("option", "sortOpt", selectSort);
+    opt.value = option;
+    opt.textContent = option;
+  });
+
+  // Select input from sort function
+  selectSort.addEventListener("change", () => {
+    sortTasks(); // Use the same logic
+    setLocalStorage(); //Saves the logic
+    displayTasks(taskContainer);
+  });
 
   btn.textContent = "Add Task";
 
@@ -208,7 +258,7 @@ export function initApp() {
   if (tasksArray.length === 0) {
     const welcomeTask = new Task(
       "Welcome !",
-      "Click any card to edit details...",
+      "Click any card to edit details or delete the task The colored bar at the top shows priority: Green (Low), Yellow (Med), Red (High).Use Add Task to start fresh. Your changes are saved automatically to your browser.",
       "2026-05-01",
       "Med",
     );
